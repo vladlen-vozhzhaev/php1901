@@ -4,10 +4,15 @@ $path  = explode("/", $_SERVER['REQUEST_URI']);
 $method = $_SERVER['REQUEST_METHOD'];
 $mysqli = new mysqli("localhost", "root", "", "php1901");
 require_once('php/classes/ArticleController.php');
-if ($path[1] == "login"){
+require_once('php/classes/UserController.php');
+if ($path[1] == "login" and $method == "GET"){
     $content =  file_get_contents("view/login.html");
-}elseif ($path[1] == "reg"){
+}elseif ($path[1] == "login" and $method == "POST"){
+    UserController::login();
+}elseif ($path[1] == "reg" and $method=="GET"){
     $content =  file_get_contents("view/reg.html");
+}elseif ($path[1] == "reg" and $method=="POST"){
+    UserController::reg();
 }elseif ($path[1] == "articles"){
     $content =  file_get_contents("view/articles.html");
 }elseif ($path[1] == "article" && $method == "GET"){

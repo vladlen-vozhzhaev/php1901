@@ -40,7 +40,7 @@ class ArticleController{
     }
     public static function getCommentByArticleId($articleId){
         global $mysqli;
-        $result = $mysqli->query("SELECT * FROM `comments` WHERE article_id='$articleId'");
+        $result = $mysqli->query("SELECT comments.comment, users.name, users.lastname FROM comments, users WHERE article_id='$articleId' AND users.id = comments.user_id");
         $comments = [];
         while (($row = $result->fetch_assoc()) != null){
             $comments[] = $row;
