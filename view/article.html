@@ -1,0 +1,61 @@
+<div id="articleDiv"></div>
+<div class="row">
+    <form onsubmit="addComment(); return false;" class="my-4">
+        <div class="mb-3">
+            <textarea id="commentTextArea" name="comment" class="form-control" placeholder="Комментарий"></textarea>
+        </div>
+        <input type="submit" class="btn btn-primary" value="Добавить комментарий">
+    </form>
+</div>
+<script>
+    // Считывам id статьи из URI в переменную articleId
+    let articleId = location.pathname.split('/')[2];
+    let container = document.getElementById('container');
+    let commentTextArea = document.getElementById('commentTextArea');
+    let articleDiv = document.getElementById('articleDiv');
+    let formData = new FormData();
+    formData.append("article_id", articleId);
+    fetch('/article', {
+        method: "POST",
+        body: formData
+    }).then(response=>response.json()) // function(response){return response.json()}
+        .then(result=>{
+            console.log(result);
+            articleDiv.innerHTML = `
+                <h1 class="text-center my-3">${result.title}</h1>
+                <div class="my-3">${result.content}</div>
+                <div class="row">
+                    <div class="col-6 text-start">
+                        Автор: ${result.author}
+                    </div>
+                    <div class="col-6 text-end">
+                        <a href="/deleteArticle/?id=${result.id}">[удалить]</a>
+                    </div>
+                </div>
+            `;
+        })
+
+    fetch('/getCommentByArticleId', {
+        method: "POST",
+        body: formData
+    }).then(response=>response.json())
+        .then(result=>{
+            console.log(result);
+        })
+
+    function addComment(){
+        let formData = new FormData();
+        formData.append('article_id', articleId);
+        formData.append(commentTextArea.name, commentTextArea.value);
+        fetch("/addComment", {
+            method: "POST",
+            body: formData
+        }).then(response=>response.json())
+            .then(result=>{
+                console.log(result);
+                if(result.result == "success") location.reload();
+            })
+    }
+
+
+</script>
