@@ -21,6 +21,13 @@ class ArticleController{
         $title = $_POST['title'];
         $content = $_POST['content'];
         $author = $_POST['author'];
+        /*
+         * 1) Каким-то образом найти в $content тег img
+         * 2) Каким-то образом достать из него значение атрибута src
+         * 3) Сохранить на жесткий диск сервера полученное изображение (конвертировать из base64 в бинарный файл)
+         * 4) Заменить значение атрибута src на ссылку вместо base64
+         * 5) Отправить результат в БД
+         * */
         $mysqli->query("INSERT INTO `articles`(`title`, `content`, `author`) VALUES ('$title','$content','$author')");
         header("Location: /articles");
     }
