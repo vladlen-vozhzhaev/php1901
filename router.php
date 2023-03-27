@@ -35,6 +35,8 @@ if ($path[1] == "login" and $method == "GET"){
     exit(UserController::getAuthUserData());
 }elseif ($path[1] == 'profile' && $method == "GET"){
     $content = file_get_contents('view/profile.html');
+}elseif ($path[1] == 'updateUserAvatar'){
+    UserController::updateUserAvatar();
 }else{
     $content = "Страница не найдена 404";
 }
