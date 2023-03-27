@@ -31,6 +31,10 @@ if ($path[1] == "login" and $method == "GET"){
     ArticleController::addComment();
 }elseif ($path[1] == 'getCommentByArticleId'){
     ArticleController::getCommentByArticleId($_POST['article_id']);
+}elseif ($path[1] == 'getAuthUserData'){
+    exit(UserController::getAuthUserData());
+}elseif ($path[1] == 'profile' && $method == "GET"){
+    $content = file_get_contents('view/profile.html');
 }else{
     $content = "Страница не найдена 404";
 }

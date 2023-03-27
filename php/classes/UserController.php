@@ -37,7 +37,18 @@ class UserController{
         }
     }
 
-    public static function getUserData(){
+    public static function getAuthUserData(){
+        $userData = [
+            "name"=>$_SESSION['name'],
+            "lastname"=>$_SESSION['lastname'],
+            "email"=>$_SESSION['email'],
+            "id"=>$_SESSION['id'],
+            "img"=>$_SESSION['img']
+        ];
+        return json_encode($userData);
+    }
+
+    public static function getUserDataById($id){
 
     }
 }
