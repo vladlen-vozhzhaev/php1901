@@ -8,7 +8,7 @@ require_once('php/classes/UserController.php');
 if ($path[1] == "login" and $method == "GET"){
     $content =  file_get_contents("view/login.html");
 }elseif ($path[1] == "login" and $method == "POST"){
-    UserController::login();
+    exit(UserController::login());
 }elseif ($path[1] == "reg" and $method=="GET"){
     $content =  file_get_contents("view/reg.html");
 }elseif ($path[1] == "reg" and $method=="POST"){

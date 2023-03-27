@@ -31,9 +31,9 @@ class UserController{
             $_SESSION['email'] = $row['email'];
             $_SESSION['id'] = $row['id'];
             $_SESSION['img'] = $row['img'];
-            header("Location: /profile.php");
+            return json_encode(['result'=>'success']);
         }else{
-            echo "Неправильный логин или пароль <a href='/login.php'>Попробовать ещё раз</a>";
+            return json_encode(['result'=>'error']);
         }
     }
 
