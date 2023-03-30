@@ -21,6 +21,18 @@ class ArticleController{
         $title = $_POST['title'];
         $content = $_POST['content'];
         $author = $_POST['author'];
+        $html = str_get_html($content);
+        $img = $html->find('img', 0);
+        $src =  $img->src; // data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wC
+        $base64 = explode(',', $src)[1]; // /9j/4AAQSkZJRgABAQAAAQABAAD/2wC
+        $extension = explode(';', explode('/', explode(',', $src)[0])[1])[0];
+        $filename = microtime().".".$extension;
+        $ifp =fopen('img/article_image/'.$filename, 'wb');
+        fwrite($ifp, base64_decode($base64));
+        fclose($ifp);
+        $img->src = "/img/article_image/$filename";
+        $mysqli->query("INSERT INTO `articles`(`title`, `content`, `author`) VALUES ('$title','$html','$author')");
+        exit(json_encode(['result'=>'success']));
         /*
          * 1) Каким-то образом найти в $content тег img
          * 2) Каким-то образом достать из него значение атрибута src
@@ -28,8 +40,6 @@ class ArticleController{
          * 4) Заменить значение атрибута src на ссылку вместо base64
          * 5) Отправить результат в БД
          * */
-        $mysqli->query("INSERT INTO `articles`(`title`, `content`, `author`) VALUES ('$title','$content','$author')");
-        header("Location: /articles");
     }
     public static function deleteArticle(){
         global $mysqli;
