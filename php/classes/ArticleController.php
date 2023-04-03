@@ -32,7 +32,7 @@ class ArticleController{
         fclose($ifp);
         $img->src = "/img/article_image/$filename";
         $mysqli->query("INSERT INTO `articles`(`title`, `content`, `author`) VALUES ('$title','$html','$author')");
-        exit(json_encode(['result'=>'success']));
+        return (json_encode(['result'=>'success']));
         /*
          * 1) Каким-то образом найти в $content тег img
          * 2) Каким-то образом достать из него значение атрибута src
@@ -54,7 +54,7 @@ class ArticleController{
         $articleId = $_POST['article_id'];
         $comment = $_POST['comment'];
         $mysqli->query("INSERT INTO `comments`(`user_id`, `article_id`, `comment`) VALUES ('$userId', '$articleId', '$comment')");
-        exit(json_encode(['result'=>'success']));
+        return (json_encode(['result'=>'success']));
     }
     public static function getCommentByArticleId($articleId){
         global $mysqli;
@@ -63,6 +63,6 @@ class ArticleController{
         while (($row = $result->fetch_assoc()) != null){
             $comments[] = $row;
         }
-        exit(json_encode($comments));
+        return (json_encode($comments));
     }
 }

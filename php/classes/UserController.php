@@ -59,15 +59,20 @@ class UserController{
         $goodExtensions = ["png", "jpg", "jpeg", "gif"]; // Список допустимых расширений файла
         foreach ($goodExtensions as $e){ // перебираем допустимые расширения
             if($e == $extension){ // Сравниваем расширение файла и допустимое расширение
-                $dir = "/img/user_avatar/".$userFile['name'];
+                $dir = "img/user_avatar/".$userFile['name'];
                 $resultDir = "/img/user_avatar/".$userFile['name'];
                 move_uploaded_file($userFile['tmp_name'], $dir);
                 $mysqli->query("UPDATE `users` SET `img`='$resultDir' WHERE id='$userId'");
                 $_SESSION['img'] = $resultDir;
                 header("Location: /profile");
-                exit();
+                break;
+                return;
             }
         }
-        exit("Type file ERROR!");
+        return ("Type file ERROR!");
+    }
+    public static function logout(){
+        session_destroy();
+        header("Location: /");
     }
 }

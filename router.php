@@ -14,30 +14,23 @@ Route::view('/reg', "view/reg.html");
 Route::view('/articles', "view/articles.html");
 Route::view('/article/{id}', "view/article.html");
 Route::view('/addArticle', "view/addArticle.html");
+Route::view('/profile', 'view/profile.html');
+
+/* Маршруты для обработки GET запросов*/
+Route::get("/getArticles", function (){return ArticleController::getArticles();});
+Route::get('/getAuthUserData', function (){return UserController::getAuthUserData();});
+Route::get('/exit', function (){UserController::logout();});
 
 /* Маршруты для обработки POST запросов*/
 Route::post('/login', function (){return UserController::login();});
 Route::post('/reg', function (){return UserController::reg();});
-
-
-if ($path[1] == "getArticles"){
-    exit(ArticleController::getArticles());
-}elseif ($path[1] == "article" && $method == 'POST'){
-    exit(ArticleController::getArticleById());
-}elseif ($path[1] == "addArticle" && $method == 'POST'){
-    ArticleController::addArticle();
-}elseif ($path[1] == "deleteArticle"){
+Route::post('/article', function (){return ArticleController::getArticleById();});
+Route::post('/addArticle', function (){return ArticleController::addArticle();});
+Route::post('/addComment', function (){return ArticleController::addComment();});
+Route::post('/getCommentByArticleId', function (){return ArticleController::getCommentByArticleId($_POST['article_id']);});
+Route::post('/updateUserAvatar', function (){return UserController::updateUserAvatar();});
+if ($path[1] == "deleteArticle"){
     ArticleController::deleteArticle();
-}elseif ($path[1] == 'addComment'){
-    ArticleController::addComment();
-}elseif ($path[1] == 'getCommentByArticleId'){
-    ArticleController::getCommentByArticleId($_POST['article_id']);
-}elseif ($path[1] == 'getAuthUserData'){
-    exit(UserController::getAuthUserData());
-}elseif ($path[1] == 'profile' && $method == "GET"){
-    $content = file_get_contents('view/profile.html');
-}elseif ($path[1] == 'updateUserAvatar'){
-    UserController::updateUserAvatar();
 }else{
     $content = "Страница не найдена 404";
 }
