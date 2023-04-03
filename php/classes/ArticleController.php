@@ -45,6 +45,7 @@ class ArticleController{
         global $mysqli;
         $id = $_GET['id'];
         $mysqli->query("DELETE FROM `articles` WHERE id='$id'");
+        $mysqli->query("DELETE FROM `commetns` WHERE article_id='$id'");
         header("Location: /articles");
     }
     public static function addComment(){

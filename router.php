@@ -6,33 +6,21 @@ $mysqli = new mysqli("localhost", "root", "", "php1901");
 require_once('php/classes/ArticleController.php');
 require_once('php/classes/UserController.php');
 require_once('php/classes/simple_html_dom.php');
+require_once('php/classes/Route.php');
 
-/*if($path[1] == 'banki'){
-    $html = file_get_html('https://www.banki.ru/');
-    $div = $html->find('.l965967d6', 1);
-    foreach ($div->find('a') as $a){
-        echo $a->find('.l56781f45', 0)->plaintext."<br>";
-        echo $a->find('.l983f7424', 0)->plaintext."<br>";
-        echo $a->find('.l983f7424', 1)->plaintext."<hr>";
-    }
-}
-exit();*/
+/* Маршруты для отображения страниц*/
+Route::view('/login', "view/login.html");
+Route::view('/reg', "view/reg.html");
+Route::view('/articles', "view/articles.html");
+Route::view('/article/{id}', "view/article.html");
+Route::view('/addArticle', "view/addArticle.html");
 
-if ($path[1] == "login" and $method == "GET"){
-    $content =  file_get_contents("view/login.html");
-}elseif ($path[1] == "login" and $method == "POST"){
-    exit(UserController::login());
-}elseif ($path[1] == "reg" and $method=="GET"){
-    $content =  file_get_contents("view/reg.html");
-}elseif ($path[1] == "reg" and $method=="POST"){
-    UserController::reg();
-}elseif ($path[1] == "articles"){
-    $content =  file_get_contents("view/articles.html");
-}elseif ($path[1] == "article" && $method == "GET"){
-    $content = file_get_contents("view/article.html");
-}elseif ($path[1] == "addArticle" && $method == "GET"){
-    $content = file_get_contents("view/addArticle.html");
-}elseif ($path[1] == "getArticles"){
+/* Маршруты для обработки POST запросов*/
+Route::post('/login', function (){return UserController::login();});
+Route::post('/reg', function (){return UserController::reg();});
+
+
+if ($path[1] == "getArticles"){
     exit(ArticleController::getArticles());
 }elseif ($path[1] == "article" && $method == 'POST'){
     exit(ArticleController::getArticleById());

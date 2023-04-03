@@ -7,14 +7,12 @@ class UserController{
         $lastname = $_POST['lastname'];
         $email = $_POST['email'];
         $pass = $_POST['pass'];
-        //echo "Имя: $name, Фамилия: $lastname, Email: $email, Pass: $pass";
-        $result = $mysqli->query("SELECT * FROM users WHERE email='$email'");
-        if($result->num_rows){
-            echo "Такой пользователь уже существует <a href='/reg.php'>зарегистрировать другого</a>";
+        $result=$mysqli->query("SELECT * FROM users WHERE email='$email'");
+        if ($result->num_rows){
+            return json_encode(['result'=>'error']);
         }else{
-            $mysqli->query("INSERT INTO `users`(`name`, `lastname`, `email`, `pass`) VALUES ('$name','$lastname','$email','$pass')");
-            echo "Пользователь зарегистрирован!";
-            header("Location: /login"); // Редирект (перенаправление пользователя)
+            $mysqli->query( "INSERT INTO `users`(`name`, `lastname`, `email`, `pass`) VALUES ('$name','$lastname','$email','$pass')");
+            return json_encode(['result'=>'success']);
         }
     }
 
